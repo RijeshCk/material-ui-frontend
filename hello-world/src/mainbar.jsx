@@ -1,21 +1,18 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
-import pink500 from 'material-ui/styles/colors'
-import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import ListItem from 'material-ui/List/ListItem';
 import axios from 'axios';
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import customstyles from './index.css' 
 import FlatButton from 'material-ui/FlatButton';
-import SignupSignin from './signup.jsx'
-import MenuPopup from './sidebar-menu.jsx';
+import SignupSignin from './signup.jsx';
+import GraphDialouge from './graph-dialougebox.jsx';
 injectTapEventPlugin();
+
 import {
   blue300,
   pink400,
@@ -44,13 +41,9 @@ class Main extends React.Component{
   }
 
   componentDidMount(){
-    console.log("component mounted");
     axios.get('http://127.0.0.1:8000/fetchall/')
-  .then(function (response) {
-    
+  .then(function (response) { 
     this.setState({products:response.data.product_list});
-    console.log(this.state.products);
-
   }.bind(this))
   .catch(function (error) {
     console.log(error);
@@ -60,12 +53,12 @@ class Main extends React.Component{
   handleSubmit(event){
     event.preventDefault();
     const target = event.target
-    console.log("url submitted"+target.url.value);
     this.setState({value:target.url});
     const url_from_input = target.url.value 
     const url =  "http://127.0.0.1:8000/product/?url="+url_from_input
     fetch(url,{method:'GET'});
   }
+
 
   render(){
     return(
@@ -85,7 +78,6 @@ class Main extends React.Component{
 		        </Avatar>
 		      }>
           <SignupSignin/>
-        
 			</ListItem>
   		</div>
     </AppBar>
@@ -106,6 +98,8 @@ class Main extends React.Component{
           <TableRowColumn className="product_name">{row.name}</TableRowColumn>
           <TableRowColumn>{row.price}</TableRowColumn>
           <TableRowColumn>{row.availability}</TableRowColumn>
+          <TableRowColumn>Graph<GraphDialouge/></TableRowColumn>
+          <TableRowColumn>Track</TableRowColumn>
         </TableRow>
       ))}
 

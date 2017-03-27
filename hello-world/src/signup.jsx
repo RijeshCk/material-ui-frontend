@@ -1,13 +1,9 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import SwipeableViews from './tab.jsx';
 import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios';
-import DjangoCSRFToken from 'django-react-csrftoken';
-// import $ from 'jquery';
 import cookie from 'react-cookie';
 
 /**
@@ -25,6 +21,7 @@ export default class SignupSignin extends React.Component {
     super(props);
     this.state = {value:'',products:[]};
     this.handlesignup = this.handlesignup.bind(this);
+    
   }
   state = {
     open: false,
@@ -32,6 +29,7 @@ export default class SignupSignin extends React.Component {
 
   handleOpen = () => {
     this.setState({open: true});
+   
   };
 
   handleClose = () => {
@@ -41,20 +39,12 @@ export default class SignupSignin extends React.Component {
 
   handlesignup(e){
    e.preventDefault();
-   
-   
-   var axios = require("axios");
-  var axiosDefaults = require("axios/lib/defaults");
-var a=cookie.load('csrftoken');
-console.log('ddddddd',document.cookie)
-axiosDefaults.xsrfCookieName = "csrftokfffffen";
-axiosDefaults.xsrfHeaderName = "csrftoken";
-    axiosDefaults.headers.common['csrftoken'] = '5pfaF92GX6shqzZ4d7KL4Qetnpb7KU28';
-    let email = this.state.email;
-    let password = this.state.password;
+   console.log(cookie.load('csrftoken'));
+    var email = e.target.email.value;
+    var password = e.target.password.value;
    axios.post('http://127.0.0.1:8000/authenticate/', {
-    'username': 'rijesh36@gmail.com',
-    'password': 'aana',
+    'username': email,
+    'password': password,
   }, )
   .then(function (response) {
     console.log("sucess");
@@ -62,18 +52,6 @@ axiosDefaults.xsrfHeaderName = "csrftoken";
   .catch(function (error) {
     console.log(error);
   });
-  // fetch('http://127.0.0.1:8000/authenticate/', {
-  //           method: 'POST',
-  //           headers: {
-  //               'X-CSRFToken': window.csrftoken 
-  //           },
-  //           body:{'username': 'rijesh36@gmail.com',
-  //            'password': 'aana',}
-  //       }).then(function (response) {
-  //           return response.json()
-  //       })
-
-
     this.setState({open: false});
 
   }
@@ -99,13 +77,12 @@ axiosDefaults.xsrfHeaderName = "csrftoken";
         <div>
         
         </div>
-        <form onSubmit={this.handlesignup} method='POST'>
-        <DjangoCSRFToken/>
+        <form onSubmit={this.handlesignup}>
           <TextField value={this.state.email} name="email" className="email" hintText="email" floatingLabelText="email"/>
           <br/>
           <TextField value={this.state.password} name="password" className="password" hintText="password" floatingLabelText="password"/>     
           <br/>
-          <FlatButton label="Track it"  type="submit" />
+          <FlatButton label="Track it"  type="submit"/>
           <FlatButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
           </form>
       </Dialog>

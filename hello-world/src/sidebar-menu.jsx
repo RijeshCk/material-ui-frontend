@@ -1,8 +1,6 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
 import SignupSignin from './signup.jsx'
 export default class MenuPopup extends React.Component {
 
